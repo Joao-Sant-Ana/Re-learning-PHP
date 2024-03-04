@@ -12,36 +12,41 @@
             private $color;
             private $size;
 
-            function __construct (string $name, string $color, string $size)
+            public function __construct (string $name, string $color, string $size)
             {
                 $this->name = $name;
                 $this->color = $color;     
                 $this->size = $size;          
             }
 
-            function __destruct () 
+            public function __destruct () 
             {
                 echo "O nome da fruta é " . $this->name . "<br>";    
             }
 
             private function test() 
             {
-                echo "Test";
+                echo "Test" . "<br>";
             }
 
-            function get_name() : string
+            public function get_name() : string
             {
                 return $this->name;
             }
 
-            function get_color() : string
+            public function get_color() : string
             {
                 return $this->color;
             }
 
-            function get_size() : string
+            public function get_size() : string
             {
                 return $this->size;
+            }
+
+            public function test2()
+            {
+                return $this->test();    
             }
         }
     
@@ -50,7 +55,7 @@
         echo $apple->get_name() . "<br>";
         echo $apple->get_color() . "<br>";
         echo $apple->get_size() . "<br>";
-        echo $apple->test();
+        echo $apple->test2();
     ?>
 </body>
 </html>
