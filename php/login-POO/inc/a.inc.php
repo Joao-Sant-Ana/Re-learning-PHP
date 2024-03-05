@@ -27,14 +27,3 @@
         }
 
     }
-
-    $test = new DbQuery($pdo);
-    $result = $test->GetQuery($pdo);
-
-    for($i = 0; $i < count($result); $i++) {
-        if ($result[$i]["username"] == "João") {
-            echo $result[$i]["username"] . "<br>";
-        } else {
-            echo false;
-        }
-    }
