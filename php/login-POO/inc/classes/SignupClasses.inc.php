@@ -39,5 +39,5 @@ class SignupUser
     }
 }
 
-$test = new SignupUser("João", "joo@gmail.com", "1234");
+$test = new SignupUser("João", "jjooa@gmail.com", "1234");
 $test->SaveToDB($pdo);

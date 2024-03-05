@@ -1,7 +1,7 @@
 <?php   
     $dbh = "mysql:host=localhost;dbname=login-poo";
     $dbuser = "root";
-    $dbpw = "";
+    $dbpw = "usbw";
 
     try {
         $pdo = new PDO($dbh, $dbuser, $dbpw);
