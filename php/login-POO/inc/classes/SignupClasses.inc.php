@@ -38,6 +38,3 @@ class SignupUser
         $this->PushToDB($pdo, $this->username, $this->email, $this->HashPw());//Properties use as parameters
     }
 }
-
-$test = new SignupUser("João", "jjooa@gmail.com", "1234");
-$test->SaveToDB($pdo);

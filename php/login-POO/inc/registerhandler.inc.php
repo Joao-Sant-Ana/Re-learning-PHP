@@ -1,8 +1,9 @@
 <?php
     session_start();
-    require_once"connection.inc.php";
+    require_once "connection.inc.php";
+    include "a.inc.php";
 
-    class VerrifyErrors
+    class VerrifyErrors extends DbQuery
     {
         private string $username;
         private string $email;
@@ -27,8 +28,10 @@
             }
         }
 
-        private function IsEmailTaken($pdo, $email) : bool {
-            
+        private function IsEmailTaken($pdo) {
+            return $this->GetQuery($pdo);
         }
-
     }
+
+
+    

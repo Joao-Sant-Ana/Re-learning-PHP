@@ -2,7 +2,6 @@
     session_start();
     require_once "connection.inc.php";
     
-
     class DbQuery
     {
         private object $pdo;
@@ -13,7 +12,7 @@
             $this->pdo = $pdo;
         }
 
-        private function QueryDB(object $pdo, string $username, string $email, string $password) 
+        private function QueryDB(object $pdo) 
         {
             $query = "SELECT * FROM users";
             $stmt = $pdo->prepare($query);
@@ -22,15 +21,15 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);            
         }
 
-        public function GetQuery(object $pdo, string $username, string $email, string $password)
+        public function GetQuery(object $pdo)
         {
-            return $this->QueryDB($pdo, $username, $email, $password);
+            return $this->QueryDB($pdo);
         }
 
     }
 
     $test = new DbQuery($pdo);
-    $result = $test->GetQuery($pdo, "João", "joo@gmail.com", "1234");
+    $result = $test->GetQuery($pdo);
 
     for($i = 0; $i < count($result); $i++) {
         if ($result[$i]["username"] == "João") {
