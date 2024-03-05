@@ -1,9 +1,8 @@
 <?php
-    session_start();
     require_once "connection.inc.php";
     include "a.inc.php";
 
-    class VerrifyErrors extends DbQuery
+    class VerifyErrors extends DbQuery
     {
         private string $username;
         private string $email;
@@ -17,6 +16,7 @@
             $this->username = $username;
             $this->email = $email;
             $this->password = $password;
+            $this->errors = [];
         }
 
         private function IsInputEmpty(string $username, string $email, string $password) : bool 
@@ -50,17 +50,25 @@
         }
 
         //ERROR HANDLERS
-        public function VerifyErrors() 
+        public function SearchForErrors() 
         {
+            $hasErrors = false;
             if ($this->IsInputEmpty($this->username, $this->email, $this->password)) {
                 $this->errors["empty"] = "Empty fields";
-            } else if ($this->isEmailInvalid($this->email)) {
-                $this->errors["invalid"] = "Invalid type";
-            } else if ($this->IsEmailTaken($this->pdo, $this->email)) {
-                $this->errors["taken"] = "Invalid data";
-            } else {
-                $_GET["succes"] = "succes";
+                $hasErrors = true;
             }
+
+            if ($this->isEmailInvalid($this->email)) {
+                $this->errors["invalid"] = "Invalid type";
+                $hasErrors = true;
+            } 
+            
+            if ($this->IsEmailTaken($this->pdo, $this->email)) {
+                $this->errors["taken"] = "Invalid data";
+                $hasErrors = true;
+            }
+            
+            return $hasErrors;
         }
 
         public function getErrors() : array 
@@ -69,5 +77,6 @@
         }
     }
 
-
-    
+    $test = new VerifyErrors($pdo ,"a", "joogmail.com", "");
+    $test->SearchForErrors();
+    var_dump($test->getErrors());
