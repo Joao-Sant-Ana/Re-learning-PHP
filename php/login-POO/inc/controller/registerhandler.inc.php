@@ -1,6 +1,7 @@
 <?php
-    require_once "connection.inc.php";
-    include "a.inc.php";
+    require_once "../core/connection.inc.php";
+    require_once "../model/pushuser.inc.php";
+    require_once "../model/query.inc.php";
 
     class VerifyErrors extends DbQuery
     {
@@ -38,6 +39,17 @@
             }
         }
 
+        private function IsUsernameTaken(object $pdo, string $username) : bool 
+        {
+            $dbusername = $this->GetQuery($pdo);
+            for($i = 0; $i < count($dbusername); $i++) {
+                if ($dbusername[$i]["username"] == $username) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private function IsEmailTaken(object $pdo, string $email) : bool
         {
             $dbemail = $this->GetQuery($pdo);
@@ -62,6 +74,11 @@
                 $this->errors["invalid"] = "Invalid type";
                 $hasErrors = true;
             } 
+
+            if ($this->IsUsernameTaken($this->pdo, $this->username)) {
+                $this->errors["taken"] = "Invalid data";
+                $hasErrors = true;
+            }
             
             if ($this->IsEmailTaken($this->pdo, $this->email)) {
                 $this->errors["taken"] = "Invalid data";
@@ -75,8 +92,19 @@
         {
             return $this->errors;
         }
+
+        //Insert User
+        public function InsertUser() 
+        {
+            if($this->getErrors() == []) {
+                $pushUser = new UserCreator($this->username, $this->email, $this->password);
+                $pushUser->SaveToDB($this->pdo);
+            } else {
+                var_dump($this->getErrors());
+            }
+ 
+        }
     }
 
-    $test = new VerifyErrors($pdo ,"a", "joogmail.com", "");
-    $test->SearchForErrors();
-    var_dump($test->getErrors());
+    $test = new VerifyErrors($pdo, "Poi", "poi@gmail.com", "1234");
+    $test->InsertUser();
